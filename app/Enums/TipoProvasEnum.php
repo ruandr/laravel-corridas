@@ -8,11 +8,11 @@ use App\Enums\Enum;
 
 class TipoProvasEnum extends Enum
 {
-    public const KM_3 = 'KM_3';
-    public const KM_5 = 'KM_5';
-    public const KM_10 = 'KM_10';
-    public const KM_21 = 'KM_21';
-    public const KM_42 = 'KM_42';
+    public const KM_3 = '3';
+    public const KM_5 = '5';
+    public const KM_10 = '10';
+    public const KM_21 = '21';
+    public const KM_42 = '42';
 
     public static $registers = [
         self::KM_3  => '3',

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProvasResultadoTable extends Migration
+class CreateProvasResultadosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,15 @@ class CreateProvasResultadoTable extends Migration
      */
     public function up()
     {
-        Schema::create('provas_resultado', function (Blueprint $table) {
+        Schema::create('provas_resultados', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('id_prova_corretor');
+            $table->unsignedBigInteger('id_prova_corredor');
+            $table->dateTime('inicio');
+            $table->dateTime('fim');
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('id_prova_corretor')
+            $table->foreign('id_prova_corredor')
                 ->references('id')
                 ->on('provas_corredores');
         });
@@ -32,6 +34,6 @@ class CreateProvasResultadoTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('provas_resultado');
+        Schema::dropIfExists('provas_resultados');
     }
 }
