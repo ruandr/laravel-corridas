@@ -19,14 +19,6 @@ class CreateProvasCorredoresTable extends Migration
             $table->unsignedBigInteger('id_prova');
             $table->timestamps();
             $table->softDeletes();
-            
-            $table->foreign('id_corredor')
-                ->references('id')
-                ->on('corredores');
-                
-            $table->foreign('id_prova')
-                ->references('id')
-                ->on('provas');
         });
     }
 

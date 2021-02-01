@@ -16,14 +16,10 @@ class CreateProvasResultadosTable extends Migration
         Schema::create('provas_resultados', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('id_prova_corredor');
-            $table->dateTime('inicio');
-            $table->dateTime('fim');
+            $table->datetime('inicio');
+            $table->datetime('fim');
             $table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('id_prova_corredor')
-                ->references('id')
-                ->on('provas_corredores');
         });
     }
 

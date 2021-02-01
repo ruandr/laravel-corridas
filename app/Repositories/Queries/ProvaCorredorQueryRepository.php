@@ -5,42 +5,57 @@ declare(strict_types=1);
 namespace App\Repositories\Queries;
 
 use DB;
+use stdClass;
+use Illuminate\Database\Query\Builder;
 use App\Models\ProvaCorredor;
 
 class ProvaCorredorQueryRepository
 {
-    public function getById(int $id): ?DB
+    public function getByIdResumed(int $id): ?stdClass
     {
-        $provaCorredor = $this->baseQuery()
-                            ->where('id', $id)
+        $provaCorredor = DB::table('provas_corredores')
+                            ->join('provas', 'provas.id', 'provas_corredores.id_prova')
+                            ->where('provas_corredores.id', $id)
+                            ->select('provas_corredores.id', 'provas.data')
                             ->first();
-
+        
         return $provaCorredor;
     }
 
-    public function getByExternalIds(int $idProva, int $idCorredor): ?DB
+    public function getByExternalIds(int $idProva, int $idCorredor): ?stdClass
     {
         $provaCorredor = $this->baseQuery()
                             ->where('provas_corredores.id_prova', $idProva)
                             ->where('provas_corredores.id_corredor', $idCorredor)
                             ->first();
-                            
         return $provaCorredor;
     }
 
-    public function all(): DB
+    public function countByExternalIds(int $idProva, int $idCorredor): int
     {
-        $provasCorredores = $this->baseQuery()
-                                ->get();
-        
-        return $provasCorredores;
+        $provaCorredor = DB::table('provas_corredores')
+                            ->where('id_prova', $idProva)
+                            ->where('id_corredor', $idCorredor)
+                            ->count();
+
+        return $provaCorredor;
     }
 
-    private function baseQuery(): DB
+    public function countCorredorInDate(int $idCorredor, string $data): int
+    {
+        $countProvaCorredor = DB::table('provas_corredores')
+                            ->join('provas', 'provas.id', 'provas_corredores.id_prova')
+                            ->where('provas_corredores.id_corredor', $idCorredor)
+                            ->where('provas.data', $data)
+                            ->count();
+        return $countProvaCorredor;
+    }
+
+    private function baseQuery(): Builder
     {
         $query = DB::table('provas_corredores')
-                    ->join('provas', 'prova.id', 'provas_corredores.id_prova')
-                    ->join('corredores', 'corredores.id', 'prova_corredores.id')
+                    ->join('provas', 'provas.id', 'provas_corredores.id_prova')
+                    ->join('corredores', 'corredores.id', 'provas_corredores.id_corredor')
                     ->select(
                         'provas_corredores.id',
                         'provas.id as id_prova',
@@ -48,9 +63,10 @@ class ProvaCorredorQueryRepository
                         'corredores.nome',
                         'corredores.cpf',
                         'corredores.data_nascimento',
+                        'provas.data as data_prova_en',
                         DB::raw('TIMESTAMPDIFF (YEAR,corredores.data_nascimento,CURDATE()) as idade'),
                         DB::raw('DATE_FORMAT(provas.data,"%d/%m/%Y") as data_prova'),
-                        DB::raw('CONTAT(provas.tipo, "KM") as tipo_prova')
+                        DB::raw('CONCAT(provas.tipo_prova, "KM") as tipo_prova')
                     );
 
         return $query;

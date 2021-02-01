@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repositories\Queries;
 
 use App\Models\Corredor;
+use Illuminate\Database\Eloquent\Collection;
 
 class CorredorQueryRepository
 {
@@ -13,8 +14,9 @@ class CorredorQueryRepository
         return Corredor::find($id);
     }
 
-    public function all(): Corredor
+    public function all(): ?Collection
     {
         return Corredor::all();
+
     }
 }

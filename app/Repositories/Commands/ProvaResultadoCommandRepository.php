@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Respositories\Commands;
+namespace App\Repositories\Commands;
 
 use App\Models\ProvaResultado;
 use App\Repositories\Queries\ProvaCorredorQueryRepository;
+use Illuminate\Http\Request;
 
 class ProvaResultadoCommandRepository
 {
@@ -16,21 +17,16 @@ class ProvaResultadoCommandRepository
         $this->provaCorredorQuery = $provaCorredorQuery;
     }
 
-    public function create(request $request): ProvaResultado
+    public function create(array $request): ProvaResultado
     {
-        $provaCorredor = $provaCorredorQuery->getByExternalIds($request->get('proof_id'), $request->get('runner_id'));
+        $provaResultado = new ProvaResultado();
 
-        $provaResultado = new ProvaResultado;
-
-        $provaResultado->id_prova_corredor  = $provaCorredor->id;
-        $provaResultado->inicio             = $request->get('start');
-        $provaResultado->fim                = $request->get('end');
+        $provaResultado->id_prova_corredor  = $request['id_prova_corredor'];
+        $provaResultado->inicio             = $request['inicio'];
+        $provaResultado->fim                = $request['fim'];
 
         $provaResultado->save();
-    }
-    public function delete(int $id): void
-    {
-        $provaResultado = ProvaResultado::find($id);
-        $provaResultado->delete();
+
+        return $provaResultado;
     }
 }

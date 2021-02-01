@@ -2,27 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App\Respositories\Commands;
+namespace App\Repositories\Commands;
 
 use App\Models\ProvaCorredor;
+use Illuminate\Http\Request;
 
 class ProvaCorredorCommandRepository
 {
     public function create(request $request): ProvaCorredor
     {
-        $provaCorredor = new ProvaCorredor;
-        $provaCorredor->id_prova    = $request->get('proof_id');
-        $provaCorredor->id_corredor = $request->get('runner_id');
+        $provaCorredor = new ProvaCorredor();
+        $provaCorredor->id_prova    = $request->get('id_prova');
+        $provaCorredor->id_corredor = $request->get('id_corredor');
         $provaCorredor->save();
 
         return $provaCorredor;
-    }
-
-    public function delete(int $idProva, int $idCorredor): void
-    {
-        $provaCorredor = ProvaCorredor::where('id_prova', $idProva)
-                                    ->where('id_corredor', $idCorredor)
-                                    ->first();
-        $provaCorredor->delete();
     }
 }
