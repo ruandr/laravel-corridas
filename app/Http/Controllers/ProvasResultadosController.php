@@ -74,11 +74,11 @@ class ProvasResultadosController extends Controller
 
     public function listGeneralClassification(): JsonResponse
     {
-        $response = $this->apiResponse->getDefaultResponse();
         try {
+            $response = $this->apiResponse->getDefaultResponse();
             $provasResultados = $this->provaResultadoService->getGeneralClassification();
 
-            $response['data'] = $provasResultados['data'];
+            $response['data'] = $provasResultados;
             return response()->json(['data' => $provasResultados], 200);
         } catch (\Throwable $th) {
             $response = $this->apiResponse->getErrorResponse('Internal Error');
