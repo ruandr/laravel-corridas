@@ -43,6 +43,19 @@ $ docker-compose exec app php artisan db:seed
 - Adiciona prova resultado: POST - `api/v1/provaResultado`
 -- Parâmetros: id_corredor, id_prova, hora_inicio², hora_fim²
 
+## Api Requests
+O Seeder irá gerar um usuário de teste com um token de requisição fixo para testes: `FF3B6EAAAC507A073DA3CE09`
+
+Exemplo de chamada da requisição
+
+    Authorization: Bearer FF3B6EAAAC507A073DA3CE09
+
+Além do header `Authorization` as rotas de cadastro necessitam do header `Content-Type`
+
+    Content-Type: application/x-www-form-urlencoded
+
+Os parâmtros devem ser enviados como parâmetros de formulário
+
 #### Listagens
 - Listagem de resultados gerais: GET - `api/v1/resultado`
 
@@ -63,19 +76,6 @@ $ docker-compose exec app php artisan db:seed
 - 36-45
 - 46-55
 - 56-999
-
-## Api Requests
-O Seeder irá gerar um usuário de teste com um token de requisição fixo para testes: `FF3B6EAAAC507A073DA3CE09`
-
-Exemplo de chamada da requisição
-
-    Authorization: Bearer FF3B6EAAAC507A073DA3CE09
-
-Além do header `Authorization` as rotas de cadastro necessitam do header `Content-Type`
-
-    Content-Type: application/x-www-form-urlencoded
-
-Os parâmtros devem ser enviados como parâmetros de formulário
 
 ## Arquitetura
 O projeto utiliza além do MVC padrão do Laravel alguns patterns para melhor organização e escalabilidade do código, visando separar as dependencias de maneira organizada.
