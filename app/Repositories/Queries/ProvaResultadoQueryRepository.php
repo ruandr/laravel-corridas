@@ -103,7 +103,7 @@ class ProvaResultadoQueryRepository
                         'provas_resultados.inicio',
                         'provas_resultados.fim'
                     )
-                    ->orderByRaw('provas.id, TIMEDIFF(provas_resultados.inicio, provas_resultados.fim) DESC');
+                    ->orderByRaw('TIMEDIFF(provas_resultados.inicio, provas_resultados.fim) DESC');
         return $query;
     }
 }
