@@ -70,6 +70,17 @@ final class ProvaService
         return $createResponse;
     }
 
+    public function find(int $id): array
+    {
+        $prova = $this->provaQueries->getById($id);
+
+        if (is_null($prova)) {
+            throw new ProvaNaoCadastrada();
+        }
+
+        return $prova->toArray();
+    }
+
     public function getAll(): array
     {
         $provas = $this->provaQueries->all();

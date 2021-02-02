@@ -73,7 +73,27 @@ class ProvasCorredoresController extends Controller
         }
     }
 
-    public function find(int $idProva, int $idCorredor): JsonResponse
+    public function find(int $id): JsonResponse
+    {
+        try {
+            $response = $this->apiResponse->getDefaultResponse();
+            $provaCorredor = $this->provaCorredorService->find($id);
+            
+            $response['data'] = $provaCorredor;
+    
+            return response()->json($response, 200);
+        } catch (ProvaCorredorInvalida $ex) {
+            $response = $this->apiResponse->getErrorResponse($ex->getMessage());
+
+            return response()->json($response, 400);
+        } catch (\Throwable $th) {
+            $response = $this->apiResponse->getErrorResponse('Internal Error');
+
+            return response()->json($response, 500);
+        }
+    }
+
+    public function findByIds(int $idProva, int $idCorredor): JsonResponse
     {
         try {
             $response = $this->apiResponse->getDefaultResponse();

@@ -9,6 +9,7 @@ use App\Helpers\ApiResponse;
 use App\Exceptions\CamposInvalidos;
 use App\Exceptions\CorredorMenorDeIdade;
 use App\Exceptions\CpfInvalido;
+use App\Exceptions\CorredorNaoCadastrado;
 
 class CorredoresController extends Controller
 {
@@ -67,6 +68,26 @@ class CorredoresController extends Controller
         }
     }
 
+    public function find(int $id): JsonResponse
+    {
+        try {
+            $response = $this->apiResponse->getDefaultResponse();
+            $corredor = $this->corredorService->find($id);
+            
+            $response['data'] = $corredor;
+
+            return response()->json($response, 200);
+        } catch (CorredorNaoCadastrado $ex) {
+            $response = $this->apiResponse->getErrorResponse($ex->getMessage());
+
+            return response()->json($response, 400);
+        } catch (\Throwable $th) {
+            $response = $this->apiResponse->getErrorResponse('Internal Error');
+
+            return response()->json($response, 500);
+        }
+    }
+
     public function getByCpf(string $cpf): JsonResponse
     {
         try {
@@ -77,6 +98,10 @@ class CorredoresController extends Controller
 
             return response()->json($response, 200);
         } catch (CpfInvalido $ex) {
+            $response = $this->apiResponse->getErrorResponse($ex->getMessage());
+
+            return response()->json($response, 400);
+        } catch (CorredorNaoCadastrado $ex) {
             $response = $this->apiResponse->getErrorResponse($ex->getMessage());
 
             return response()->json($response, 400);

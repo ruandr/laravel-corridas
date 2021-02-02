@@ -88,6 +88,17 @@ final class ProvaCorredorService
         return $provasCorredores->toArray();
     }
 
+    public function find(int $id): array
+    {
+        $provaCorredor = $this->provaCorredorQueries->find($id);
+
+        if (is_null($provaCorredor)) {
+            throw new ProvaCorredorInvalida();
+        }
+
+        return $provaCorredor->toArray();
+    }
+
     public function findByExternalIds(int $idProva, int $idCorredor): array
     {
         $provaCorredor = $this->provaCorredorQueries->findByExternalIds($idProva, $idCorredor);

@@ -4,6 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\hasOne;
+use App\Models\Corredor;
+use App\Models\Prova;
+use App\Models\ProvaCorredor;
 
 class ProvaResultado extends Model
 {
@@ -24,4 +28,9 @@ class ProvaResultado extends Model
         'inicio',
         'fim'
     ];
+
+    public function provaCorredor(): HasOne
+    {
+        return $this->hasOne(ProvaCorredor::class, 'id', 'id_prova_corredor');
+    }
 }

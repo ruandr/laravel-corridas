@@ -15,6 +15,7 @@ use App\Exceptions\CamposInvalidos;
 use App\Exceptions\HoraInvalida;
 use App\Exceptions\ProvaCorredorInvalida;
 use App\Exceptions\ResultadoJaCadastrado;
+use App\Exceptions\ResultadoNaoCadastrado;
 
 final class ProvaResultadoService
 {
@@ -90,6 +91,17 @@ final class ProvaResultadoService
         $createResponse['data'] = $provaResultado->toArray();
 
         return $createResponse;
+    }
+
+    public function find(int $id): array
+    {
+        $result = $this->provaResultadoQueries->find($id);
+
+        if (is_null($result)) {
+            throw new ResultadoNaoCadastrado();
+        }
+
+        return $result->toArray();
     }
 
     public function getGeneralClassification(): array

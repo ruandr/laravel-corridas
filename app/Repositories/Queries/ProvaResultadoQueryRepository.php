@@ -6,12 +6,18 @@ namespace App\Repositories\Queries;
 
 use DB;
 use stdClass;
+use App\Models\ProvaResultado;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Query\Builder;
 use App\Enums\ProvasIdadesEnum;
 
 class ProvaResultadoQueryRepository
 {
+    public function find(int $id): ?ProvaResultado
+    {
+        return ProvaResultado::with('provaCorredor')->where('id', $id)->first();
+    }
+
     public function getById(int $id): ?stdClass
     {
         $provaResultado = $this->baseQuery()
@@ -79,7 +85,8 @@ class ProvaResultadoQueryRepository
                     ->join('provas', 'provas.id', 'provas_corredores.id_prova')
                     ->join('corredores', 'corredores.id', 'provas_corredores.id_corredor')
                     ->select(
-                        'provas_corredores.id',
+                        'provas_resultados.id',
+                        'provas_corredores.id as id_prova_corredor',
                         'provas.id as id_prova',
                         'corredores.id as id_corredor',
                         'corredores.nome',

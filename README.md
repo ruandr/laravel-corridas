@@ -57,19 +57,31 @@ Os parâmtros devem ser enviados como parâmetros de formulário
     - Parâmetros: `id_corredor`, `id_prova`, `hora_inicio`², `hora_fim`²
 
 #### Buscas
-- Busca corredores cadastrados: GET - `api/v1/corredores`
+- Corredores
+    - Busca corredor por ID: GET - `api/v1/corredor/{id}`
 
-- Busca corredor por cpf: GET - `api/v1/corredor/{cpf}`
+    - Busca corredor por cpf: GET - `api/v1/corredor/cpf/{cpf}`
 
-- Busca provas cadastradas: GET - `api/v1/provas`
+    - Busca todos corredores cadastrados: GET - `api/v1/corredores`
 
-- Busca provas por data: GET - `api/v1/provas/data/{data}`
+- Provas
+    - Busca prova por ID: GET - `api/v1/prova/{id}`
 
-- Busca provas por tipo: GET - `api/v1/provas/tipo/{tipo}`¹
+    - Busca todas provas cadastradas: GET - `api/v1/provas`
 
-- Busca Provas Corredores cadastrados: GET - `api/v1/provasCorredores`
+    - Busca provas por data: GET - `api/v1/provas/data/{data}`
 
-- Busca Provas Corredores por Ids de prova e corredor: GET - `api/v1/provaCorredor/{idProva}/{idCorredor}`
+    - Busca provas por tipo: GET - `api/v1/provas/tipo/{tipo}`¹
+
+- Provas Corredores
+    - Busca prova corredor por ID: GET - `api/v1/provaCorredor/{id}`
+
+    - Busca todas Provas Corredores cadastrados: GET - `api/v1/provasCorredores`
+
+    - Busca Provas Corredores por Ids de prova e corredor: GET - `api/v1/provaCorredor/{idProva}/{idCorredor}`
+
+- Provas Resultados
+    - Busca resultado por ID: GET - `api/v1/resultado/{id}`
 
 #### Listagens
 - Listagem de resultados gerais: GET - `api/v1/resultado`

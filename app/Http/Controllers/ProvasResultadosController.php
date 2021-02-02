@@ -10,6 +10,7 @@ use App\Exceptions\CamposInvalidos;
 use App\Exceptions\HoraInvalida;
 use App\Exceptions\ProvaCorredorInvalida;
 use App\Exceptions\ResultadoJaCadastrado;
+use App\Exceptions\ResultadoNaoCadastrado;
 
 class ProvasResultadosController extends Controller
 {
@@ -36,19 +37,19 @@ class ProvasResultadosController extends Controller
         } catch (CamposInvalidos $ex) {
             $response = $this->apiResponse->getErrorResponse($ex->getMessage());
 
-            return response()->json($reponse, 400);
+            return response()->json($response, 400);
         } catch (HoraInvalida $ex) {
             $response = $this->apiResponse->getErrorResponse($ex->getMessage());
 
-            return response()->json($reponse, 400);
+            return response()->json($response, 400);
         } catch (ProvaCorredorInvalida $ex) {
             $response = $this->apiResponse->getErrorResponse($ex->getMessage());
 
-            return response()->json($reponse, 400);
+            return response()->json($response, 400);
         } catch (ResultadoJaCadastrado $ex) {
             $response = $this->apiResponse->getErrorResponse($ex->getMessage());
 
-            return response()->json($reponse, 400);
+            return response()->json($response, 400);
         } catch (\Throwable $th) {
             $response = $this->apiResponse->getErrorResponse('Internal Error');
 
@@ -56,10 +57,30 @@ class ProvasResultadosController extends Controller
         }
     }
 
+    public function find(int $id): JsonResponse
+    {
+        try {
+            $response = $this->apiResponse->getDefaultResponse();
+            $provaResultado = $this->provaResultadoService->find($id);
+            
+            $response['data'] = $provaResultado;
+
+            return response()->json(['data' => $response], 200);
+        } catch (ResultadoNaoCadastrado $ex) {
+            $response = $this->apiResponse->getErrorResponse($ex->getMessage());
+
+            return response()->json($response, 400);
+        } catch (\Throwable $th) {
+            $response = $this->apiResponse->getErrorResponse('Internal Error');
+
+            return response()->json(['data' => $response], 500);
+        }
+    }
+
     public function listClassificationByAge(string $agePeriod = 'all'): JsonResponse
     {
-        $response = $this->apiResponse->getDefaultResponse();
         try {
+            $response = $this->apiResponse->getDefaultResponse();
             $provasResultados = $this->provaResultadoService->listClassificationByAge($agePeriod);
             
             $response['data'] = $provasResultados;

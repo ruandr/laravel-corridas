@@ -31,7 +31,7 @@ class ApiRequest
         if (is_null($validUser)) {
             return response()->json(['status' => 'Token de acesso inválido'], 401);
         }
-
+        
         return $next($request);
     }
 }

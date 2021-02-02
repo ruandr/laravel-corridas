@@ -12,6 +12,11 @@ use App\Models\ProvaCorredor;
 
 class ProvaCorredorQueryRepository
 {
+    public function find(int $id): ?ProvaCorredor
+    {
+        return ProvaCorredor::with(['prova', 'corredor'])->where('id', $id)->first();
+    }
+
     public function getByIdResumed(int $id): ?stdClass
     {
         $provaCorredor = DB::table('provas_corredores')

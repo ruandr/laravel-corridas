@@ -58,6 +58,28 @@ class ProvasController extends Controller
         }
     }
 
+    public function find(int $id): JsonResponse
+    {
+        try {
+            $response = $this->apiResponse->getDefaultResponse();
+
+            $prova = $this->provaService->find($id);
+
+            $response['data'] = $prova;
+
+            return response()->json($response, 200);
+
+        } catch (ProvaNaoCadastrada $ex) {
+            $response = $this->apiResponse->getErrorResponse($ex->getMessage());
+
+            return response()->json($response, 400);
+        } catch (\Throwable $th) {
+            $response = $this->apiResponse->getErrorResponse('Internal Error');
+
+            return response()->json($response, 500);
+        }
+    } 
+
     public function all(): JsonResponse
     {
         try {

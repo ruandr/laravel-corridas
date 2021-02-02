@@ -8,5 +8,5 @@ use Exception;
 
 final class ProvaCorredorInvalida extends Exception
 {
-    protected $message = 'Não existe nenhuma corrida marcada com os IDs informados';
+    protected $message = 'Não existe nenhuma corrida marcada com o(s) ID(s) informado(s)';
 }

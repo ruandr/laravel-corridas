@@ -12,6 +12,7 @@ use App\Repositories\Commands\CorredorCommandRepository;
 use App\Exceptions\CamposInvalidos;
 use App\Exceptions\CorredorMenorDeIdade;
 use App\Exceptions\CpfInvalido;
+use App\Exceptions\CorredorNaoCadastrado;
 
 final class CorredorService
 {
@@ -60,6 +61,17 @@ final class CorredorService
         return $createResponse;
     }
 
+    public function find(int $id): array
+    {
+        $corredor = $this->corredorQueries->getById($id);
+
+        if (is_null($corredor)) {
+            throw new CorredorNaoCadastrado();
+        }
+
+        return $corredor->toArray();
+    }
+
     public function getAll(): array
     {
         $corredores = $this->corredorQueries->all();
@@ -78,7 +90,7 @@ final class CorredorService
         $corredor = $this->corredorQueries->getByCpf($cpf);
 
         if (is_null($corredor)) {
-            throw new CpfInvalido();
+            throw new CorredorNaoCadastrado();
         }
 
         return $corredor->toArray();
