@@ -67,7 +67,28 @@ $ docker-compose exec app php artisan db:seed
 ## Api Requests
 O Seeder irá gerar um usuário de teste com um token de requisição fixo para testes: `FF3B6EAAAC507A073DA3CE09`
 
-Segue o exemplo de requisição
+Exemplo de chamada da requisição
 
     Authorization: Bearer FF3B6EAAAC507A073DA3CE09
 
+Além do header `Authorization` as rotas de cadastro necessitam do header `Content-Type`
+
+    Content-Type: application/x-www-form-urlencoded
+
+Os parâmtros devem ser enviados como parâmetros de formulário
+
+## Arquitetura
+O projeto utiliza além do MVC padrão do Laravel alguns patterns para melhor organização e escalabilidade do código, visando separar as dependencias de maneira organizada.
+
+- Service Layer
+O patter Service Layer, é utilizado para separar a lógica das regras de negócio em uma camada diferente do Controller, assim, o controller irá se responsabilizar apenas de chamar os métodos dos services necessários para executar as ações que deseja.
+
+- Repository Pattern
+O repository pattern é um modo de centralizar toda a interação com o banco de dados em uma outra camada, neste caso foi aplicato o CQRS pattern em conjunto.
+
+- CQRS Pattern
+O CQRS(Command Query Responsibility Segregation) é utilizado para separar as interações com o banco em dois tópicos:
+-- Queries: Responsáveis pela leitura em banco
+-- Commands: Responsáveis pela escrita(INSERT e UPDATE) e remoção(DELETE)
+
+A utilização dos padrões foi feita com intuito didático de uso dos padrões.
