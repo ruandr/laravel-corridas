@@ -1,61 +1,71 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+## Subindo ambiente Docker
+Após clonar o projeto siga os seguintes passos
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+#### Buildando Buildando e Subindo App
+```bash
+$ docker-compose build app
+```
+```bash
+$ docker-compose up -d
+```
 
-## About Laravel
+#### Configurando o Laravel
+```bash
+$ docker-compose exec app cp .env.example .env
+```
+```bash
+$ docker-compose exec app composer install
+```
+```bash
+$ docker-compose exec app php artisan key:generate
+```
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+#### Executando Migrations e Seeders
+```bash
+$ docker-compose exec app php artisan migrate
+```
+```bash
+$ docker-compose exec app php artisan db:seed
+```
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Rotas
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+#### Cadastros
+- Adiciona corredor: POST - `api/v1/corredor`
+-- Parâmetros: nome, cpf, data_nascimento
 
-## Learning Laravel
+- Adiciona prova: POST - `api/v1/prova`
+-- Parâmetros: tipo¹, data
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- Adiciona prova corredor: POST - `api/v1/provaCorredor`
+-- Parâmetros: id_corredor, id_prova
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- Adiciona prova resultado: POST - `api/v1/provaResultado`
+-- Parâmetros: id_corredor, id_prova, hora_inicio², hora_fim²
 
-## Laravel Sponsors
+#### Listagens
+- Listagem de resultados gerais: GET - `api/v1/resultado`
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+- Listagem de resultados por idade: GET - `api/v1/resultado/classificacaoPorIdade/{faixaDeIdade?}³`
 
-### Premium Partners
+¹ Tipos de Prova
+- 3
+- 5
+- 10
+- 21
+- 42
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[OP.GG](https://op.gg)**
+² Formato de horarios esperados: hh:mm
 
-## Contributing
+³ Faixa de idade: opcional
+- 18-25
+- 26-35
+- 36-45
+- 46-55
+- 56-999
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## Api Requests
+O Seeder irá gerar um usuário de teste com um token de requisição fixo para testes: FF3B6EAAAC507A073DA3CE09
+Segue o exemplo de requisição
+    Authorization: Bearer FF3B6EAAAC507A073DA3CE09
 
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
