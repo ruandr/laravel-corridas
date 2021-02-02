@@ -66,7 +66,8 @@ $ docker-compose exec app php artisan db:seed
 
 ## Api Requests
 O Seeder irá gerar um usuário de teste com um token de requisição fixo para testes: `FF3B6EAAAC507A073DA3CE09`
+
 Segue o exemplo de requisição
 
-    `Authorization: Bearer FF3B6EAAAC507A073DA3CE09`
+    Authorization: Bearer FF3B6EAAAC507A073DA3CE09
 
