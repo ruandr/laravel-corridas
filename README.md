@@ -45,16 +45,16 @@ Os parâmtros devem ser enviados como parâmetros de formulário
 
 #### Cadastros
 - Adiciona corredor: POST - `api/v1/corredor`
-    - Parâmetros: nome, cpf, data_nascimento
+    - Parâmetros: `nome`, `cpf`, `data_nascimento`
 
 - Adiciona prova: POST - `api/v1/prova`
-    - Parâmetros: tipo¹, data
+    - Parâmetros: `tipo`¹, `data`
 
 - Adiciona prova corredor: POST - `api/v1/provaCorredor`
-    - Parâmetros: id_corredor, id_prova
+    - Parâmetros: `id_corredor`, `id_prova`
 
 - Adiciona prova resultado: POST - `api/v1/provaResultado`
-    - Parâmetros: id_corredor, id_prova, hora_inicio², hora_fim²
+    - Parâmetros: `id_corredor`, `id_prova`, `hora_inicio`², `hora_fim`²
 
 #### Buscas
 - Busca corredores cadastrados: GET - `api/v1/corredores`
