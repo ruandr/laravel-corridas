@@ -106,5 +106,3 @@ O CQRS(Command Query Responsibility Segregation) é utilizado para separar as in
 
     - Queries: Responsáveis pela leitura em banco
     - Commands: Responsáveis pela escrita(INSERT e UPDATE) e remoção(DELETE)
-
-A utilização dos padrões foi feita com intuito didático de uso dos padrões.
