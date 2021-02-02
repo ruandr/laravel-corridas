@@ -65,7 +65,7 @@ Os parâmtros devem ser enviados como parâmetros de formulário
 
 - Busca provas por data: GET - `api/v1/provas/data/{data}`
 
-- Busca provas por tipo: GET - `api/v1/provas/tipo/{tipo}¹`
+- Busca provas por tipo: GET - `api/v1/provas/tipo/{tipo}`¹
 
 - Busca Provas Corredores cadastrados: GET - `api/v1/provasCorredores`
 
@@ -74,7 +74,7 @@ Os parâmtros devem ser enviados como parâmetros de formulário
 #### Listagens
 - Listagem de resultados gerais: GET - `api/v1/resultado`
 
-- Listagem de resultados por idade: GET - `api/v1/resultado/classificacaoPorIdade/{faixaDeIdade?}³`
+- Listagem de resultados por idade: GET - `api/v1/resultado/classificacaoPorIdade/{faixaDeIdade?}`³
 
 ¹ Tipos de Prova
 - 3
