@@ -55,7 +55,7 @@ $ docker-compose exec app php artisan db:seed
 - 21
 - 42
 
-² Formato de horarios esperados: hh:mm
+² Formato de horarios esperados: `hh:mm`
 
 ³ Faixa de idade: opcional
 - 18-25
@@ -65,7 +65,8 @@ $ docker-compose exec app php artisan db:seed
 - 56-999
 
 ## Api Requests
-O Seeder irá gerar um usuário de teste com um token de requisição fixo para testes: FF3B6EAAAC507A073DA3CE09
+O Seeder irá gerar um usuário de teste com um token de requisição fixo para testes: `FF3B6EAAAC507A073DA3CE09`
 Segue o exemplo de requisição
-    Authorization: Bearer FF3B6EAAAC507A073DA3CE09
+
+    `Authorization: Bearer FF3B6EAAAC507A073DA3CE09`
 
