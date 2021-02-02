@@ -13,6 +13,8 @@ use App\Exceptions\CamposInvalidos;
 use App\Exceptions\TipoProvaInvalido;
 use App\Exceptions\DataInvalida;
 use App\Exceptions\ProvaJaCadastrada;
+use App\Exceptions\TipoParametroInvalido;
+use App\Exceptions\ProvaNaoCadastrada;
 
 final class ProvaService
 {
@@ -66,6 +68,65 @@ final class ProvaService
         $createResponse['data'] = $prova->toArray();
 
         return $createResponse;
+    }
+
+    public function getAll(): array
+    {
+        $provas = $this->provaQueries->all();
+
+        return $provas->toArray();
+    }
+
+    public function getByParam(string $paramType, string $param): array
+    {
+        $expectedParams = [
+            'data',
+            'tipo'
+        ];
+
+        if (!in_array($paramType, $expectedParams)) {
+            throw new TipoParametroInvalido();
+        }
+        $prova = [];
+        if ($paramType == 'data') {
+            $prova = $this->getByDate($param);
+        }
+
+        if ($paramType == 'tipo') {
+            $prova = $this->getByType($param);
+        }
+
+        return $prova;
+    }
+
+    private function getByDate(string $date): array
+    {
+        if (!$this->validateDateFormat($date)) {
+            throw new DataInvalida();
+        }
+
+        $prova = $this->provaQueries->getByDate($date);
+
+        if (is_null($prova)) {
+            throw new ProvaNaoCadastrada();
+        }
+        
+        return $prova->toArray();
+    }
+
+    private function getByType(string $type): array
+    {
+        if (!$this->validateType($type)) {
+            throw new TipoProvaInvalido();
+        }
+
+        $prova = $this->provaQueries->getByType($type);
+        
+        if (is_null($prova)) {
+            throw new ProvaNaoCadastrada();
+        }
+
+        return $prova->toArray();
     }
 
     private function validateType(string $type): bool

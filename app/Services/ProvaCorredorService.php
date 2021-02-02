@@ -14,6 +14,7 @@ use App\Exceptions\CamposInvalidos;
 use App\Exceptions\CorredorNaoCadastrado;
 use App\Exceptions\ProvaNaoCadastrada;
 use App\Exceptions\CorredorIndisponivel;
+use App\Exceptions\ProvaCorredorInvalida;
 
 final class ProvaCorredorService
 {
@@ -78,6 +79,24 @@ final class ProvaCorredorService
         $createResponse['data']     = $provaCorredor->toArray();
 
         return $createResponse;
+    }
+
+    public function getAll(): array
+    {
+        $provasCorredores = $this->provaCorredorQueries->all();
+
+        return $provasCorredores->toArray();
+    }
+
+    public function findByExternalIds(int $idProva, int $idCorredor): array
+    {
+        $provaCorredor = $this->provaCorredorQueries->findByExternalIds($idProva, $idCorredor);
+
+        if (is_null($provaCorredor)) {
+            throw new ProvaCorredorInvalida();
+        }
+
+        return $provaCorredor->toArray();
     }
 
     public function getValidsRandomExternalIds(): array

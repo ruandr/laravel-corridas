@@ -18,7 +18,15 @@ class ApiRequest
     {
         $accessToken = $request->bearerToken();
 
-        $validUser = $this->userQueries->getByAccessToken($accessToken);
+        if (is_null($accessToken)) {
+            return response()->json(['status' => 'Token de acesso não informado'], 401);
+        }
+
+        try {
+            $validUser = $this->userQueries->getByAccessToken($accessToken);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => 'Internal Error'], 500);
+        }
         
         if (is_null($validUser)) {
             return response()->json(['status' => 'Token de acesso inválido'], 401);

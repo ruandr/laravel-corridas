@@ -14,6 +14,11 @@ class CorredorQueryRepository
         return Corredor::find($id);
     }
 
+    public function getByCpf(string $cpf): ?Corredor
+    {
+        return Corredor::where('cpf', $cpf)->first();
+    }
+
     public function all(): ?Collection
     {
         return Corredor::all();

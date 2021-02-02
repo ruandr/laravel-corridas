@@ -7,6 +7,7 @@ namespace App\Repositories\Queries;
 use DB;
 use stdClass;
 use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use App\Models\ProvaCorredor;
 
 class ProvaCorredorQueryRepository
@@ -20,6 +21,19 @@ class ProvaCorredorQueryRepository
                             ->first();
         
         return $provaCorredor;
+    }
+
+    public function all(): ?Collection
+    {
+        return ProvaCorredor::with(['prova', 'corredor'])->get();
+    }
+
+    public function findByExternalIds(int $idProva, int $idCorredor): ?ProvaCorredor
+    {
+        return ProvaCorredor::with(['prova', 'corredor'])
+                            ->where('id_prova', $idProva)
+                            ->where('id_corredor', $idCorredor)
+                            ->first();
     }
 
     public function getByExternalIds(int $idProva, int $idCorredor): ?stdClass

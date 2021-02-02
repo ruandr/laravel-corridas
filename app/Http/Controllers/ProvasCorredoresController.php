@@ -10,6 +10,7 @@ use App\Exceptions\CamposInvalidos;
 use App\Exceptions\CorredorNaoCadastrado;
 use App\Exceptions\ProvaNaoCadastrada;
 use App\Exceptions\CorredorIndisponivel;
+use App\Exceptions\ProvaCorredorInvalida;
 
 class ProvasCorredoresController extends Controller
 {
@@ -46,6 +47,42 @@ class ProvasCorredoresController extends Controller
 
             return response()->json($response, 400);
         } catch (CorredorIndisponivel $ex) {
+            $response = $this->apiResponse->getErrorResponse($ex->getMessage());
+
+            return response()->json($response, 400);
+        } catch (\Throwable $th) {
+            $response = $this->apiResponse->getErrorResponse('Internal Error');
+
+            return response()->json($response, 500);
+        }
+    }
+
+    public function all(): JsonResponse
+    {
+        try {
+            $response = $this->apiResponse->getDefaultResponse();
+            $provasCorredores = $this->provaCorredorService->getAll();
+            
+            $response['data'] = $provasCorredores;
+    
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = $this->apiResponse->getErrorResponse('Internal Error');
+
+            return response()->json($response, 500);
+        }
+    }
+
+    public function find(int $idProva, int $idCorredor): JsonResponse
+    {
+        try {
+            $response = $this->apiResponse->getDefaultResponse();
+            $provaCorredor = $this->provaCorredorService->findByExternalIds($idProva, $idCorredor);
+            
+            $response['data'] = $provaCorredor;
+    
+            return response()->json($response, 200);
+        } catch (ProvaCorredorInvalida $ex) {
             $response = $this->apiResponse->getErrorResponse($ex->getMessage());
 
             return response()->json($response, 400);

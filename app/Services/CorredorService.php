@@ -60,6 +60,30 @@ final class CorredorService
         return $createResponse;
     }
 
+    public function getAll(): array
+    {
+        $corredores = $this->corredorQueries->all();
+
+        return $corredores->toArray();
+    }
+
+    public function getByCpf(string $cpf): array
+    {
+        if (!$this->validateCpf($cpf)) {
+            throw new CpfInvalido();
+        }
+
+        $cpf = $this->maskCpf($cpf);
+
+        $corredor = $this->corredorQueries->getByCpf($cpf);
+
+        if (is_null($corredor)) {
+            throw new CpfInvalido();
+        }
+
+        return $corredor->toArray();
+    }
+
     private function validateAge(string $birth): bool
     {
         $birth  = Carbon::parse($birth);

@@ -51,4 +51,39 @@ class CorredoresController extends Controller
         }
     }
 
+    public function all(): JsonResponse
+    {
+        try {
+            $response = $this->apiResponse->getDefaultResponse();
+            $corredores = $this->corredorService->getAll();
+            
+            $response['data'] = $corredores;
+
+            return response()->json($response, 200);
+        } catch (\Throwable $th) {
+            $response = $this->apiResponse->getErrorResponse('Internal Error');
+
+            return response()->json($response, 500);
+        }
+    }
+
+    public function getByCpf(string $cpf): JsonResponse
+    {
+        try {
+            $response = $this->apiResponse->getDefaultResponse();
+            $corredor = $this->corredorService->getByCpf($cpf);
+            
+            $response['data'] = $corredor;
+
+            return response()->json($response, 200);
+        } catch (CpfInvalido $ex) {
+            $response = $this->apiResponse->getErrorResponse($ex->getMessage());
+
+            return response()->json($response, 400);
+        } catch (\Throwable $th) {
+            $response = $this->apiResponse->getErrorResponse('Internal Error');
+
+            return response()->json($response, 500);
+        }
+    }
 }

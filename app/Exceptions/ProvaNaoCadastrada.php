@@ -8,5 +8,5 @@ use Exception;
 
 final class ProvaNaoCadastrada extends Exception
 {
-    protected $message = 'Não existe nenhuma prova com o ID informado';
+    protected $message = 'Não existe nenhuma prova com o parâmetro informado';
 }
